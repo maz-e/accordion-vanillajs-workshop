@@ -8,16 +8,16 @@ function closeAllAccordionContents() {
     }
 }
 
-function addContent() {
-    const total = accordion.children.length / 2
+function addContent(content) {
+    const { name, status, species, gender, image, created } = content
     let dt = document.createElement('dt')
     let dd = document.createElement('dd') 
 
     dt.className = 'Accordion-title'
-    dt.innerHTML = `Section ${total + 1}`
+    dt.innerHTML = name
 
     dd.className = 'Accordion-body'
-    dd.innerHTML = `<p>Section ${total + 1} Content... Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, laboriosam fuga accusamus quis veritatis quo eum consequatur voluptates nemo incidunt sapiente necessitatibus aspernatur vitae minima hic, exercitationem repellat explicabo quaerat?</p>`
+    dd.innerHTML = `<p>${species} - ${gender}<br/><img src="${image}" alt="${name}"></p>`
 
     accordion.append(dt)
     accordion.append(dd)
@@ -40,4 +40,22 @@ accordion.onclick = function(event) {
     oldTarget = target
 }
 
-addBtn.addEventListener("click", addContent)
+addBtn.addEventListener("click", function() {
+    const request = new XMLHttpRequest()
+    const url = 'https://rickandmortyapi.com/api/character/'
+    
+    //Only to add different characters each time you add content. It could have been made with random numbers.  
+    const nextID = (accordion.children.length / 2)
+
+    request.onreadystatechange = async function() {
+        if (request.readyState == 4) {
+            if (request.status == 200) {
+                addContent(JSON.parse(request.response))
+            } else {
+                alert('Hubo problemas con la petición.');
+            }
+        }
+    }
+    request.open('GET', url + nextID)
+    request.send()
+})
