@@ -1,5 +1,7 @@
 # Frontend Exercise
 
+[DEMO](https://maz-e.github.io/accordion-vanillajs-workshop/ "With GitHub Pages")
+
 With the next markup, you must create an **accordion (JS / CSS)**. Show only the contents of a section at a time. Sure to follow the **SUIT convention** when working with CSS.
 
 ```html
